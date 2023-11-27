@@ -6,7 +6,7 @@
 public class Spell {
     protected String spellName;
     protected int damage;
-    protected int manaCost;
+    protected int staminaCost;
     protected String keyAssociation;
 
     /**
@@ -16,19 +16,19 @@ public class Spell {
      * @param m, int for mana cost
      * @param k, string for key association
      */
-    public Spell(String s, int d, int m, String k) {
+    public Spell(String s, int d, int st, String k) {
         spellName = s;
         damage = d;
-        manaCost = m;
+        staminaCost = st;
         keyAssociation = k;
     }
 
     /**
      * Mutators for spell name, damage, and mana cost
-     * @param s, string for spell name
-     * @param d, int for damage
-     * @param m, int for mana cost
-     * @param k, string for key association
+     * @param spell, string for spell name
+     * @param dmg, int for damage
+     * @param stam, int for stamina cost
+     * @param key, string for key association
      */
     public void setSpellName(String s) {
         spellName = s;
@@ -36,8 +36,8 @@ public class Spell {
     public void setDamage(int d) {
         damage = d;
     }
-    public void setManaCost(int m) {
-        manaCost = m;
+    public void setStamina(int st) {
+        staminaCost = st;
     }
     public void setKeyAssociation(String k) {
         keyAssociation = k;
@@ -53,8 +53,8 @@ public class Spell {
     public int getDamage() {
         return damage;
     }
-    public int getManaCost() {
-        return manaCost;
+    public int getStaminaCost() {
+        return staminaCost;
     }
     public String getKeyAssociation() {
         return keyAssociation;
@@ -65,7 +65,7 @@ public class Spell {
      * @return String representation of Attack
      */
     public String toString() {
-        return keyAssociation + " - " + spellName + " - Dmg/Healing: " + damage + " - Mana: " + manaCost + "\n";
+        return keyAssociation + " - " + spellName + " - Dmg/Healing: " + damage + " - Mana: " + staminaCost + "\n";
     }
 
 }

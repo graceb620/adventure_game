@@ -1,5 +1,5 @@
 # adventure_game
-This is a project for my Object Oriented Programming class
+This is a project for my Object Oriented Programming class with Professor Timothy Urness. This class was taken during Fall 2023.
 
 * The Game.java file is the file that runs the game. 
 

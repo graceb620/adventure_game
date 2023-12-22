@@ -2,125 +2,97 @@
 * @author Grace Bero  
 * Creates the wizard type that inherits traits from character 
  */
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class Wizard extends Character implements CharacterInterface {
-    protected ArrayList<Spell> spellList = new ArrayList<Spell>();
+public class Wizard extends Character {
+    protected int mana;
+    protected ArrayList<Spell> spellList;
     protected int healthPotions;
+    protected int damage;
     protected int lives;
 
     /**
      * Constructor for Wizard Class
-     * @param n, string for name
+     * @param n, string for name of character
      */
     public Wizard(String n) {
-        super(n, 8);
+        super(n);
+        mana = 8;
+        spellList = new ArrayList<Spell>();
         healthPotions = 0;
         lives = 3;
     }
 
     /**
-     * Mutators for wizard
-     * @param hp, int for health potions
+     * Mutator for mana of wizard
+     * @param m, int for mana
      * @param l, int for lives
-     * @param s, Spell for spell
+     * @param h, int for health potions
      */
-    public void setHealthPotions(int hp) {
-        healthPotions = hp;
+    public void setMana(int m) {
+        mana = m;
     }
     public void setLives(int l) {
         lives = l;
     }
-    public void setSpell(Spell s) {
-        spellList.add(s);
+    public void setHealthPotions(int h) {
+        healthPotions = h;
     }
 
     /**
-     * Accessors for wizard
-     * @return healthPotions, lives, spellList
+     * Mutators for adding/removing spells from spell list
+     * @param s, string for spell
      */
-    public int getHealthPotions() {
-        return healthPotions;
+    public void addSpell(Spell s) {
+        spellList.add(s);
     }
-    public int getLives() {
-        return lives;
+    public void removeSpell(Spell s) {
+        spellList.remove(s);
+    }
+
+    /**
+     * Accessors for mana and spell list
+     * @return mana, spellList, lives
+     */
+    public int getMana() {
+        return mana;
     }
     public List<Spell> getSpellList() {
         return spellList;
     }
+    public int getLives() {
+        return lives;
+    }
 
     /**
-     * Attack method for wizard
-     * @param s, Spell for spell
+     * Casts a spell method
+     * @param s, spell to be casted
+     * @return true if spell is casted, false if not enough mana
      */
-    public boolean attack(Spell s) {
-        if (stamina >= s.getStaminaCost()) { //checks to see if wizard has enough mana to cast spell 
-            stamina -= s.getStaminaCost();  //if so, subtracts mana cost from mana
-            damage = s.getDamage(); //sets damage to damage of spelld
-            //System.out.println("You cast " + s.getSpellName() + " dealing " + s.getDamage() + " damage!");
+    public boolean castSpell(Spell s) {
+        if (mana >= s.getManaCost()) { //checks to see if wizard has enough mana to cast spell
+            if (s.equals("h")) {
+                mana -= s.getManaCost();  //if so, subtracts mana cost from mana
+                damage = s.getDamage(); //sets damage to damage of spelld
+                System.out.println("You cast " + s.getSpellName() + " healing " + s.getDamage() + " health!");  
+            } else {
+                mana -= s.getManaCost();  //if so, subtracts mana cost from mana
+                damage = s.getDamage(); //sets damage to damage of spelld
+                System.out.println("You cast " + s.getSpellName() + " dealing " + s.getDamage() + " damage!");
+            }
             return true; //returns true if spell is casted
         } else { 
-            //throw new StaminaException(); //throws exception if not enough mana
-            return false; //returns false if spell is not casted
+            System.out.println("You don't have enough mana to cast " + s.getSpellName() + "!");
+            return false;
         }
     }
 
     /**
-     * Stamina regen method for wizard
-     */
-    public void staminaRegen() {
-        if (stamina < 8) {
-            stamina += 2;
-            if (stamina > 8) { //stamina cannot exceed 8
-                stamina = 8;
-            }
-        }
-    }
-
-    /**
-     * loseLife method for wizard
+     * Wizard loses a life method
      */
     public void loseLife() {
         lives--;
-    }
-
-    /**
-     * gainHealth methods for wizard
-     * @param h, int for health
-     */
-    public void gainHealth(int h) {
-        health += h;
-        if (health > 100) { //health cannot exceed 100
-            health = 20;
-        }
-    }
-
-    /**
-     * loseHealth method for wizard
-     * @param damage, int for damage
-     */
-    public void loseHealth(int damage) {
-
-        if (health <= 0) { //if health is less than or equal to 0, wizard loses a life
-            loseLife();
-            health = 100;
-        }
-    }
-
-    /**
-     * Health potion used method
-     * If wizard has health potions, health is increased by 50 and health potions decrease by 1
-     */
-    public void healthPotion() {
-        if (healthPotions > 0) {
-            gainHealth(50);
-            healthPotions--;
-        }
-        else {
-            //System.out.println("You don't have any health potions!");
-        }
     }
 
     /**
@@ -136,6 +108,69 @@ public class Wizard extends Character implements CharacterInterface {
     }
 
     /**
+     * Wizard loses health method
+     * If health is less than or equal to 0, wizard loses a life and health is reset to 100
+     * @param damage, int for damage
+     */
+    public void loseHealth(int damage) {
+
+        if (health <= 0) {
+            loseLife();
+            health = 100;
+        }
+    }
+
+    /**
+     * Regenerates mana method
+     * Mana regenerates by 2, but can't go over 8
+     */
+    public void regenerateMana() {
+        if (mana < 8) {
+            mana += 2;
+            if (mana > 8) {
+                mana = 8;
+            }
+        }
+    }
+
+    /**
+     * Wizard health to full method
+     */
+    public void healthToFull() {
+        health = 100;
+    }
+
+    /**
+     * Wizard mana to full method
+     */
+    public void manaToFull() {
+        mana = 8;
+    }
+
+    /**
+     * Health potion used method
+     * If wizard has health potions, health is increased by 50 and health potions decrease by 1
+     */
+    public void healthPotion() {
+        if (healthPotions > 0) {
+            health += 50;
+            healthPotions--;
+        }
+        else {
+            System.out.println("You don't have any health potions!");
+        }
+    }
+
+    /**
+     * Wizard gains health method
+     * @param damage, int for damage
+     */
+    public void gainHealth(int damage) {
+        health += damage;
+    }
+
+
+    /**
      * toString method for Wizard class
      * @return String representation of Wizard
      */
@@ -143,10 +178,11 @@ public class Wizard extends Character implements CharacterInterface {
         String wizardString = "";
         wizardString += "Name: " + getName() + "\n";
         wizardString += "Current Health: " + getHealth() + "\n";
-        wizardString += "Current Stamina: " + getStamina() + "\n";
+        wizardString += "Current Mana: " + getMana() + "\n";
         wizardString += "Current Lives: " + getLives() + "\n";
         wizardString += "Health Potions: " + healthPotions + "\n";
         return wizardString;
     }
 
 }
+

@@ -1,6 +1,6 @@
 /**
  * @author Grace Bero
- * Program that utilizes classes, Wizard, Boss, Spell, and Goblin classes to create a text based game
+ * Program that utilizes classes, Wizard, Boss, and Goblin to create a text based game
  */
 
 import java.util.Scanner;
